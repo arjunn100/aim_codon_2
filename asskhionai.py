@@ -9,13 +9,13 @@ def show_login():
         phone_number = st.text_input("Enter your phone number:")
         if st.button("Login"):
             st.session_state.login_detail = phone_number
-            st.session_state.step = 'outfit_preferences'
+            st.session_state.step = 'home'
             st.experimental_rerun()
     else:
         gmail_account = st.text_input("Enter your Gmail account:")
         if st.button("Login"):
             st.session_state.login_detail = gmail_account
-            st.session_state.step = 'outfit_preferences'
+            st.session_state.step = 'home'
             st.experimental_rerun()
 
 # Define the outfit preferences page
@@ -69,25 +69,17 @@ def main():
 
     if st.session_state.step == 'login':
         show_login()
-    else:
+    elif st.session_state.step == 'home':
         st.title("Welcome to Your Outfit App")
-        
-        col1, col2 = st.columns(2)
 
-        with col1:
-            if st.button("Outfit Preferences"):
-                st.session_state.step = 'outfit_preferences'
-                st.experimental_rerun()
+        st.header("Choose a feature:")
+        choice = st.selectbox("Select a feature:", ["Outfit Preferences", "AiFit"])
 
-        with col2:
-            if st.button("AiFit"):
-                st.session_state.step = 'aifit'
-                st.experimental_rerun()
-
-        if st.session_state.step == 'outfit_preferences':
+        if choice == "Outfit Preferences":
             show_outfit_preferences()
-        elif st.session_state.step == 'aifit':
+        elif choice == "AiFit":
             show_aifit()
 
 if __name__ == "__main__":
     main()
+
