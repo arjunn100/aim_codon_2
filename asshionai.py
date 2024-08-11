@@ -1,26 +1,6 @@
 import streamlit as st
 
-# Function to display the login page
-def show_login():
-    st.title("Login")
-    login_method = st.radio("Choose a login method:", ("Phone Number", "Gmail Account"))
-
-    if login_method == "Phone Number":
-        phone_number = st.text_input("Enter your phone number:")
-        if st.button("Login"):
-            st.session_state['logged_in'] = True
-            st.session_state['login_method'] = 'Phone Number'
-            st.session_state['login_detail'] = phone_number
-            st.experimental_rerun()
-    else:
-        gmail_account = st.text_input("Enter your Gmail account:")
-        if st.button("Login"):
-            st.session_state['logged_in'] = True
-            st.session_state['login_method'] = 'Gmail'
-            st.session_state['login_detail'] = gmail_account
-            st.experimental_rerun()
-
-# Function to display outfit preferences
+# Define the outfit preferences page
 def show_outfit_preferences():
     st.title("Outfit Preferences")
 
@@ -29,7 +9,7 @@ def show_outfit_preferences():
     color_scheme = st.color_picker("Pick a color scheme:")
 
     if st.button("Show Recommendations"):
-        st.write(f"Here are some outfit recommendations for {occasion} occasion in {color_scheme}:")
+        st.write(f"Here are some outfit recommendations for the {occasion} occasion in {color_scheme}:")
         st.image("https://via.placeholder.com/150", caption="Outfit 1")
         st.image("https://via.placeholder.com/150", caption="Outfit 2")
 
@@ -38,7 +18,7 @@ def show_outfit_preferences():
         st.image("https://via.placeholder.com/150", caption="Ad 1")
         st.image("https://via.placeholder.com/150", caption="Ad 2")
 
-# Function to display AiFit - Outfit Generator
+# Define the AiFit page
 def show_aifit():
     st.title("AiFit - Create Your Outfit")
 
@@ -62,11 +42,8 @@ def show_aifit():
         st.image("https://via.placeholder.com/150", caption="Ad 1")
         st.image("https://via.placeholder.com/150", caption="Ad 2")
 
-# Main app logic
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
-
-if st.session_state['logged_in']:
+# Main logic to display content based on the step
+def main():
     st.sidebar.title("Menu")
     selection = st.sidebar.radio("Go to:", ["Outfit Preferences", "AiFit"])
 
@@ -74,5 +51,6 @@ if st.session_state['logged_in']:
         show_outfit_preferences()
     elif selection == "AiFit":
         show_aifit()
-else:
-    show_login()
+
+if __name__ == "__main__":
+    main()
