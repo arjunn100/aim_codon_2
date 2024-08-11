@@ -8,14 +8,14 @@ def show_login():
     if login_method == "Phone Number":
         phone_number = st.text_input("Enter your phone number:")
         if st.button("Login"):
+            st.session_state.step = 'outfit_preferences'
             st.session_state.login_detail = phone_number
-            st.session_state.step = 'home'
             st.experimental_rerun()
     else:
         gmail_account = st.text_input("Enter your Gmail account:")
         if st.button("Login"):
+            st.session_state.step = 'outfit_preferences'
             st.session_state.login_detail = gmail_account
-            st.session_state.step = 'home'
             st.experimental_rerun()
 
 # Define the outfit preferences page
@@ -28,8 +28,10 @@ def show_outfit_preferences():
 
     if st.button("Show Recommendations"):
         st.write(f"Here are some outfit recommendations for the {occasion} occasion in {color_scheme}:")
-        st.image("https://via.placeholder.com/150", caption="Outfit 1")
-        st.image("https://via.placeholder.com/150", caption="Outfit 2")
+        st.image("https://via.placeholder.com/150", caption="Shirt Example")
+        st.image("https://via.placeholder.com/150", caption="T-shirt Example")
+        st.image("https://via.placeholder.com/150", caption="Shoes Example")
+        st.image("https://via.placeholder.com/150", caption="Jewellery Example")
 
         st.header("Accessories")
         st.write("Related products:")
@@ -56,7 +58,7 @@ def show_aifit():
             st.error("Please upload all clothing items to create an outfit.")
 
         st.header("Accessories")
-        st.write("Related products:")
+        st.write("Accessories that match with your clothing:")
         st.image("https://via.placeholder.com/150", caption="Accessory 1")
         st.image("https://via.placeholder.com/150", caption="Accessory 2")
 
@@ -69,17 +71,19 @@ def main():
 
     if st.session_state.step == 'login':
         show_login()
-    elif st.session_state.step == 'home':
-        st.title("Welcome to Your Outfit App")
+    elif st.session_state.step == 'outfit_preferences':
+        show_outfit_preferences()
+    elif st.session_state.step == 'aifit':
+        show_aifit()
 
-        st.header("Choose a feature:")
-        choice = st.selectbox("Select a feature:", ["Outfit Preferences", "AiFit"])
-
-        if choice == "Outfit Preferences":
-            show_outfit_preferences()
-        elif choice == "AiFit":
-            show_aifit()
+    if st.session_state.step != 'login':
+        st.sidebar.title("Menu")
+        selection = st.sidebar.radio("Go to:", ["Outfit Preferences", "AiFit"])
+        if selection == "Outfit Preferences":
+            st.session_state.step = 'outfit_preferences'
+        elif selection == "AiFit":
+            st.session_state.step = 'aifit'
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
-
